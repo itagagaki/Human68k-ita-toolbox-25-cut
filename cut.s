@@ -4,6 +4,9 @@
 * Itagaki Fumihiko 26-Dec-93  Brush Up.
 * Itagaki Fumihiko 02-Jan-94  入力行の長さやフィールド数の制限を無くした
 * 1.0
+* Itagaki Fumihiko 01-Jun-95  -f で、2バイト文字以降の 1バイト文字のデリミタが認識されない
+*                             不具合を修正
+* 1.1
 *
 * Usage: cut -b <リスト> [ -nBCZ ] [ -- ] [ <ファイル> ] ...
 *        cut -c <リスト> [ -BCZ ] [--] [ <ファイル> ] ...
@@ -583,6 +586,7 @@ cut_field_loop2:
 		subq.l	#1,d4
 		bcs	cut_field_last			*  D4.L == -1
 
+		moveq	#0,d0
 		move.b	(a2)+,d0
 		cmp.b	#LF,d0
 		beq	cut_field_lf
@@ -1117,7 +1121,7 @@ return:
 .data
 
 	dc.b	0
-	dc.b	'## cut 1.0 ##  Copyright(C)1994 by Itagaki Fumihiko',0
+	dc.b	'## cut 1.1 ##  Copyright(C)1994-95 by Itagaki Fumihiko',0
 
 msg_myname:		dc.b	'cut: ',0
 word_let:		dc.b	'-let',0
